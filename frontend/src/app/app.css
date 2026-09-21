@@ -1,0 +1,19 @@
+.qr-code {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+.qr-code img {
+  display: block;
+  width: 220px;
+  height: 220px;
+  max-width: 100%;
+  margin: 0.75rem auto;
+  border-radius: 0.5rem;
+}
+
+.qr-code p {
+  margin-bottom: 0.5rem;
+}
