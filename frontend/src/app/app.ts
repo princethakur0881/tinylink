@@ -22,6 +22,14 @@ type UrlStats = {
   createdBy: string;
 };
 
+declare global {
+  interface Window {
+    __tinylinkConfig?: {
+      apiBaseUrl?: string;
+    };
+  }
+}
+
 @Component({
   selector: 'app-root',
   imports: [CommonModule, ReactiveFormsModule],
@@ -31,6 +39,7 @@ type UrlStats = {
 export class App {
   private readonly http = inject(HttpClient);
   private readonly formBuilder = inject(FormBuilder);
+  private readonly apiBaseUrl = 'https://tinylink-1dpd.onorder.com';
 
   protected readonly form = this.formBuilder.group({
     originalUrl: ['', [Validators.required, Validators.pattern(/^https?:\/\/.+/i)]],
@@ -74,7 +83,7 @@ export class App {
     this.error.set('');
     this.result.set(null);
 
-    this.http.post<ShortenResponse>('/api/shorten', payload).subscribe({
+    this.http.post<ShortenResponse>(`${this.apiBaseUrl}/api/shorten`, payload).subscribe({
       next: (response) => {
         this.result.set(response);
         this.statsForm.patchValue({ shortCode: response.shortCode });
@@ -99,7 +108,7 @@ export class App {
     this.statsError.set('');
     this.stats.set(null);
 
-    this.http.get<UrlStats>(`/api/stats/${shortCode}`).subscribe({
+    this.http.get<UrlStats>(`${this.apiBaseUrl}/api/stats/${shortCode}`).subscribe({
       next: (response) => {
         this.stats.set(response);
         this.statsLoading.set(false);
