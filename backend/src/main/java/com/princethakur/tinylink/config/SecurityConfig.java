@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,6 +22,15 @@ import java.util.List;
 @Configuration
 
 public class SecurityConfig {
+
+    private final List<String> allowedOrigins;
+
+    public SecurityConfig(@Value("${tinylink.cors.allowed-origins}") String allowedOrigins) {
+        this.allowedOrigins = List.of(allowedOrigins.split(","))
+                .stream()
+                .map(String::trim)
+                .toList();
+    }
 
     @Bean
 
@@ -49,13 +60,7 @@ public class SecurityConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(
-
-                List.of("http://localhost:4200",
-                        "http://localhost:8082",
-                        "http://localhost:8080")
-
-        );
+        configuration.setAllowedOrigins(allowedOrigins);
 
         configuration.setAllowedMethods(
 
