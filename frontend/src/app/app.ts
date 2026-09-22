@@ -39,7 +39,7 @@ declare global {
 export class App {
   private readonly http = inject(HttpClient);
   private readonly formBuilder = inject(FormBuilder);
-  private readonly apiBaseUrl = window.__tinylinkConfig?.apiBaseUrl?.replace(/\/$/, '') ?? '';
+  private readonly apiBaseUrl = 'https://tinylink-1dpd.onorder.com';
 
   protected readonly form = this.formBuilder.group({
     originalUrl: ['', [Validators.required, Validators.pattern(/^https?:\/\/.+/i)]],
